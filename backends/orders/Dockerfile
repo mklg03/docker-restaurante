@@ -4,7 +4,13 @@ WORKDIR /app
 
 COPY app.py .
 
-RUN pip install flask
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+ && pip install --no-cache-dir flask psycopg2-binary \
+ && apt-get remove -y gcc \
+ && apt-get autoremove -y \
+ && rm -rf /var/lib/apt/lists/*
 
 CMD ["python", "app.py"]
 
