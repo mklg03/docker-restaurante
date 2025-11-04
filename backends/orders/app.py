@@ -64,6 +64,30 @@ def list_orders():
     conn.close()
     return jsonify(orders)
 
+@app.route("/orders/<int:order_id>", methods=["PUT"])
+def update_order(order_id):
+    data = request.json
+    new_status = data.get("status")
+
+    if not new_status:
+        return jsonify({"error": "status is required"}), 400
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("UPDATE orders SET status = %s WHERE id = %s RETURNING id",
+                (new_status, order_id))
+
+    updated = cur.fetchone()
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    if updated:
+        return jsonify({"message": "Order updated successfully"}), 200
+    else:
+        return jsonify({"error": "Order not found"}), 404
+
 if __name__ == "__main__":
     init_db()
     app.run(host="0.0.0.0", port=5000)

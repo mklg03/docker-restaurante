@@ -1,0 +1,50 @@
+# OUs
+dn: ou=People,dc=restaurante,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=restaurante,dc=local
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+
+# Grupos
+dn: cn=cajero_group,ou=Groups,dc=restaurante,dc=local
+objectClass: top
+objectClass: posixGroup
+cn: cajero_group
+gidNumber: 1000
+
+dn: cn=gerente_group,ou=Groups,dc=restaurante,dc=local
+objectClass: top
+objectClass: posixGroup
+cn: gerente_group
+gidNumber: 1001
+
+# Usuarios
+dn: uid=cajero,ou=People,dc=restaurante,dc=local
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Cajero
+sn: Cajero
+uid: cajero
+uidNumber: 2000
+gidNumber: 1000
+homeDirectory: /home/cajero
+loginShell: /bin/bash
+userPassword: {SSHA}3dIthne3MBxIg/QXqrF5lQyIuGQiJSxl
+
+dn: uid=gerente,ou=People,dc=restaurante,dc=local
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Gerente
+sn: Gerente
+uid: gerente
+uidNumber: 2001
+gidNumber: 1001
+homeDirectory: /home/gerente
+loginShell: /bin/bash
+userPassword: {SSHA}aTVri6Dm3GgEzdG0V0/xn5Frux9pGAs/     
