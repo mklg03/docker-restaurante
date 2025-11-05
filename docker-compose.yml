@@ -48,6 +48,23 @@ services:
     networks:
       client_net:
 
+  cajero_cli:
+    build: ./cli/cajero
+    container_name: cajero_cli
+    stdin_open: true
+    tty: true
+    environment:
+      ORDERS_URL: http://api_gateway/orders
+      LDAP_HOST: openldap
+      LDAP_PORT: 389
+      LDAP_BASE: dc=restaurante,dc=local
+    depends_on:
+      - nginx
+      - openldap
+    networks:
+      client_net:
+
+
   deliveries_service:
     build: ./backends/deliveries
     container_name: deliveries_service

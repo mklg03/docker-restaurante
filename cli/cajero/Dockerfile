@@ -1,11 +1,13 @@
+
 FROM python:3.10-slim
 
 WORKDIR /app
 
 
-COPY cocina.py .
+COPY cajero.py .
+
 
 RUN pip install --no-cache-dir requests ldap3
 
 
-CMD ["python", "cocina.py"]
+CMD ["python", "cajero.py"]
