@@ -5,8 +5,8 @@ from ldap3 import Server, Connection, ALL
 from ldap3.core.exceptions import LDAPExceptionError
 
 # URLs y variables LDAP
-BASE_URL = os.getenv("ORDERS_URL", "http://localhost:5000")
-LDAP_HOST = os.getenv("LDAP_HOST", "ldap://localhost")
+BASE_URL = os.getenv("ORDERS_URL", "http://api_gateway")
+LDAP_HOST = f"ldap://{os.getenv('LDAP_HOST', 'localhost')}:{os.getenv('LDAP_PORT', 389)}"
 LDAP_BASE = os.getenv("LDAP_BASE", "dc=restaurante,dc=local")
 
 def ldap_login(username, password):

@@ -38,7 +38,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      ORDERS_URL: http://api_gateway/api/orders/
+      ORDERS_URL: http://api_gateway/orders
       LDAP_HOST: openldap
       LDAP_PORT: 389
       LDAP_BASE: dc=restaurante,dc=local
