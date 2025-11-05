@@ -34,7 +34,20 @@ uidNumber: 2000
 gidNumber: 1000
 homeDirectory: /home/cajero
 loginShell: /bin/bash
-userPassword: {SSHA}3dIthne3MBxIg/QXqrF5lQyIuGQiJSxl
+userPassword: {SSHA}rWE2njeWsfaZdo39HbeXHUri/0uLXFNV
+
+dn: uid=cocina,ou=People,dc=restaurante,dc=local
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Cocina
+sn: Cocina
+uid: cocina
+uidNumber: 2002
+gidNumber: 1000
+homeDirectory: /home/cocina
+loginShell: /bin/bash
+userPassword: {SSHA}BWjcRETFfWZfYPuIoNapJCkDc3ZqwO9W
 
 dn: uid=gerente,ou=People,dc=restaurante,dc=local
 objectClass: inetOrgPerson
@@ -47,4 +60,4 @@ uidNumber: 2001
 gidNumber: 1001
 homeDirectory: /home/gerente
 loginShell: /bin/bash
-userPassword: {SSHA}aTVri6Dm3GgEzdG0V0/xn5Frux9pGAs/             no habra alguna forma de debuguear si openladp encontro el archivo o si hubo un error al cargarlo?
+userPassword: {SSHA}oT8GwJ0UpRroUytM5hOCWVymyAD0/He8
