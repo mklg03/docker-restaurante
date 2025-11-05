@@ -13,13 +13,11 @@ services:
     networks:
       app_net:
         ipv4_address: 172.16.15.10
-
   orders_service:
     build: ./backends/orders
     container_name: orders_service
     restart: always
-    expose:
-      - "5000"
+   
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -63,6 +61,8 @@ services:
       - openldap
     networks:
       client_net:
+
+      
 
 
   deliveries_service:
