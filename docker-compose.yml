@@ -18,8 +18,8 @@ services:
     build: ./backends/orders
     container_name: orders_service
     restart: always
-    expose:
-      - "5000"
+    ports:
+      - "8082:5000"
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -32,56 +32,67 @@ services:
       app_net:
         ipv4_address: 172.16.15.20
 
-  cocina_cli:
-    build: ./cli/cocina
-    container_name: cocina_cli
-    stdin_open: true
-    tty: true
-    environment:
-      ORDERS_URL: http://api_gateway/orders
-      LDAP_HOST: openldap
-      LDAP_PORT: 389
-      LDAP_BASE: dc=restaurante,dc=local
-    depends_on:
-      - nginx
-      - openldap
-    networks:
-      client_net:
-
-  cajero_cli:
-    build: ./cli/cajero
-    container_name: cajero_cli
-    stdin_open: true
-    tty: true
-    environment:
-      ORDERS_URL: http://api_gateway/orders
-      LDAP_HOST: openldap
-      LDAP_PORT: 389
-      LDAP_BASE: dc=restaurante,dc=local
-    depends_on:
-      - nginx
-      - openldap
-    networks:
-      client_net:
-
-
   deliveries_service:
     build: ./backends/deliveries
     container_name: deliveries_service
     restart: always
-    expose:
-      - "5001"
+    ports:
+      - "8081:5000"
     environment:
       DB_HOST: db
       DB_PORT: 5432
       DB_NAME: restaurante
       DB_USER: admin
       DB_PASSWORD: admin123
+      ORDERS_URL: http://orders_service:5000/orders
     depends_on:
       - db
     networks:
       app_net:
         ipv4_address: 172.16.15.21
+
+  frontend_service:
+    build: ./frontend-deliveries/frontend-deliveries
+    container_name: frontend_service
+    restart: always
+    ports:
+      - "8083:3000"
+    depends_on:
+      - deliveries_service
+    networks:
+      app_net:
+        ipv4_address: 172.16.15.30
+
+  admin_cli:
+    build:
+      context: ./cli/administracion
+      dockerfile: Dockerfile
+    container_name: admin_cli
+    stdin_open: true
+    tty: true
+    environment:
+      ORDERS_URL: http://api_gateway/orders
+      LDAP_HOST: ldap://openldap
+      LDAP_BASE: dc=restaurante,dc=local
+    networks:
+      client_net:
+        ipv4_address: 172.16.16.6
+
+  cocina_cli:
+    build: ./cli/cocina
+    container_name: cocina_cli
+    stdin_open: true
+    tty: true
+    environment:
+      ORDERS_URL: http://api_gateway/api/orders/
+      LDAP_HOST: openldap
+      LDAP_PORT: 389
+      LDAP_BASE: dc=restaurante,dc=local
+    depends_on:
+      - nginx
+      - openldap
+    networks:
+      client_net:
 
   nginx:
     image: nginx:alpine
@@ -109,17 +120,13 @@ services:
       LDAP_REMOVE_CONFIG_AFTER_SETUP: "false"
       LDAP_TLS: "false"
     ports:
-      - "389:389"   # <-- Esto expone LDAP a tu host, útil para testing
+      - "389:389"
     volumes:
       - ./ldap/bootstrap/ldif/custom:/container/service/slapd/assets/config/bootstrap/ldif/custom
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
     networks:
       - client_net
-
-    
-
-
 
   pgadmin:
     image: dpage/pgadmin4
