@@ -30,9 +30,9 @@ services:
       app_net:
         ipv4_address: 172.16.15.20
 
-  cocina_cli:
-    build: ./cli/cocina
-    container_name: cocina_cli
+  cli_app:
+    build: ./cli
+    container_name: cli_app
     stdin_open: true
     tty: true
     environment:
@@ -45,22 +45,9 @@ services:
       - openldap
     networks:
       client_net:
+        ipv4_address: 172.16.16.10
 
-  cajero_cli:
-    build: ./cli/cajero
-    container_name: cajero_cli
-    stdin_open: true
-    tty: true
-    environment:
-      ORDERS_URL: http://api_gateway/orders
-      LDAP_HOST: openldap
-      LDAP_PORT: 389
-      LDAP_BASE: dc=restaurante,dc=local
-    depends_on:
-      - nginx
-      - openldap
-    networks:
-      client_net:
+
 
       
 

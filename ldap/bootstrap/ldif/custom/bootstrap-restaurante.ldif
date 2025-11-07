@@ -1,64 +1,98 @@
-
-# OUs
 dn: ou=People,dc=restaurante,dc=local
-objectClass: top
 objectClass: organizationalUnit
 ou: People
 
 dn: ou=Groups,dc=restaurante,dc=local
-objectClass: top
 objectClass: organizationalUnit
 ou: Groups
 
-# Grupos
-dn: cn=cajero_group,ou=Groups,dc=restaurante,dc=local
-objectClass: top
-objectClass: posixGroup
-cn: cajero_group
-gidNumber: 1000
+# Users
+dn: uid=admin,ou=People,dc=restaurante,dc=local
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: admin
+sn: admin
+uid: admin
+uidNumber: 1001
+gidNumber: 500
+homeDirectory: /home/admin
+loginShell: /bin/bash
+userPassword: {SSHA}dG32mP5ruk6uf8HqzEhUuR7e7Q6PSFVV
 
-dn: cn=gerente_group,ou=Groups,dc=restaurante,dc=local
-objectClass: top
-objectClass: posixGroup
-cn: gerente_group
-gidNumber: 1001
-
-# Usuarios
 dn: uid=cajero,ou=People,dc=restaurante,dc=local
 objectClass: inetOrgPerson
 objectClass: posixAccount
-objectClass: top
-cn: Cajero
-sn: Cajero
+objectClass: shadowAccount
+cn: cajero
+sn: cajero
 uid: cajero
-uidNumber: 2000
-gidNumber: 1000
+uidNumber: 1002
+gidNumber: 501
 homeDirectory: /home/cajero
 loginShell: /bin/bash
-userPassword: {SSHA}rWE2njeWsfaZdo39HbeXHUri/0uLXFNV
+userPassword: {SSHA}Fvdn1mBIpkG4h+Dcxe3xC6gHEyJxb+ne
 
-dn: uid=cocina,ou=People,dc=restaurante,dc=local
+dn: uid=repartidor,ou=People,dc=restaurante,dc=local
 objectClass: inetOrgPerson
 objectClass: posixAccount
-objectClass: top
-cn: Cocina
-sn: Cocina
-uid: cocina
-uidNumber: 2002
-gidNumber: 1000
-homeDirectory: /home/cocina
+objectClass: shadowAccount
+cn: repartidor
+sn: repartidor
+uid: repartidor
+uidNumber: 1003
+gidNumber: 502
+homeDirectory: /home/repartidor
 loginShell: /bin/bash
-userPassword: {SSHA}BWjcRETFfWZfYPuIoNapJCkDc3ZqwO9W
+userPassword: {SSHA}hrpeQ/Zaa6HoIQ8TKoO76OMnqylZVQeJ
+
+dn: uid=cocinero,ou=People,dc=restaurante,dc=local
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: cocinero
+sn: cocinero
+uid: cocinero
+uidNumber: 1004
+gidNumber: 503
+homeDirectory: /home/cocinero
+loginShell: /bin/bash
+userPassword: {SSHA}Nzs9862WUGx108Shl44xp4f6CMWSGpo+
 
 dn: uid=gerente,ou=People,dc=restaurante,dc=local
 objectClass: inetOrgPerson
 objectClass: posixAccount
-objectClass: top
-cn: Gerente
-sn: Gerente
+objectClass: shadowAccount
+cn: gerente
+sn: gerente
 uid: gerente
-uidNumber: 2001
-gidNumber: 1001
+uidNumber: 1005
+gidNumber: 504
 homeDirectory: /home/gerente
 loginShell: /bin/bash
-userPassword: {SSHA}oT8GwJ0UpRroUytM5hOCWVymyAD0/He8
+userPassword: {SSHA}SAt8Ea65VGnRmSp7zHvWarYeMDNg0zue
+
+# Groups
+dn: cn=cocina,ou=Groups,dc=restaurante,dc=local
+cn: cocina
+objectClass: posixGroup
+gidNumber: 503
+memberUid: cocinero
+
+dn: cn=cajero,ou=Groups,dc=restaurante,dc=local
+cn: cajero
+objectClass: posixGroup
+gidNumber: 501
+memberUid: cajero
+
+dn: cn=delivery,ou=Groups,dc=restaurante,dc=local
+cn: delivery
+objectClass: posixGroup
+gidNumber: 502
+memberUid: repartidor
+
+dn: cn=gerente,ou=Groups,dc=restaurante,dc=local
+cn: gerente
+objectClass: posixGroup
+gidNumber: 504
+memberUid: gerente
