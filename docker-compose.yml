@@ -17,7 +17,8 @@ services:
     build: ./backends/orders
     container_name: orders_service
     restart: always
-   
+    expose:
+      - "5000"
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -30,9 +31,21 @@ services:
       app_net:
         ipv4_address: 172.16.15.20
 
-  cli_app:
-    build: ./cli
-    container_name: cli_app
+  cocina_cli:
+    build: ./cli/cocina
+    container_name: cocina_cli
+    stdin_open: true
+    tty: true
+    environment:
+      ORDERS_URL: http://api_gateway/orders
+      LDAP_HOST: ldap://openldap
+      LDAP_BASE: dc=restaurante,dc=local
+    networks:
+      client_net:
+
+  cajero_cli:
+    build: ./cli/cajero
+    container_name: cajero_cli
     stdin_open: true
     tty: true
     environment:
@@ -45,30 +58,6 @@ services:
       - openldap
     networks:
       client_net:
-        ipv4_address: 172.16.16.10
-
-
-
-      
-
-
-  deliveries_service:
-    build: ./backends/deliveries
-    container_name: deliveries_service
-    restart: always
-    expose:
-      - "5001"
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: restaurante
-      DB_USER: admin
-      DB_PASSWORD: admin123
-    depends_on:
-      - db
-    networks:
-      app_net:
-        ipv4_address: 172.16.15.21
 
   nginx:
     image: nginx:alpine
@@ -96,17 +85,13 @@ services:
       LDAP_REMOVE_CONFIG_AFTER_SETUP: "false"
       LDAP_TLS: "false"
     ports:
-      - "389:389"   # <-- Esto expone LDAP a tu host, útil para testing
+      - "389:389"
     volumes:
       - ./ldap/bootstrap/ldif/custom:/container/service/slapd/assets/config/bootstrap/ldif/custom
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
     networks:
       - client_net
-
-    
-
-
 
   pgadmin:
     image: dpage/pgadmin4
