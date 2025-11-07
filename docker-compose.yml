@@ -31,6 +31,44 @@ services:
       app_net:
         ipv4_address: 172.16.15.20
 
+  deliveries_service:
+    build: ./backends/deliveries
+    container_name: deliveries_service
+    restart: always
+    expose:
+      - "5001"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: restaurante
+      DB_USER: admin
+      DB_PASSWORD: admin123
+    depends_on:
+      - db
+    networks:
+      app_net:
+        ipv4_address: 172.16.15.21
+
+
+  cli_app:
+    build: ./cli
+    container_name: cli_app
+    stdin_open: true
+    tty: true
+    environment:
+      ORDERS_URL: http://api_gateway/orders
+      LDAP_HOST: openldap
+      LDAP_PORT: 389
+      LDAP_BASE: dc=restaurante,dc=local
+    depends_on:
+      - nginx
+      - openldap
+    networks:
+      client_net:
+        ipv4_address: 172.16.16.10
+
+
+
   cocina_cli:
     build: ./cli/cocina
     container_name: cocina_cli

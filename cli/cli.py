@@ -112,6 +112,23 @@ def menu_caja():
         elif op == "2": list_orders("cajero")
         elif op == "3": sys.exit(0)
 
+def menu_admin():
+    while True:
+        print("\n=== CLI Gerente ===")
+        print("1) Ver todas las órdenes")
+        print("2) Filtrar órdenes por estado")
+        print("3) Salir")
+        op = input("> ").strip()
+        if op == "1":
+            list_orders("gerente")
+        elif op == "2":
+            filter_by_status()
+        elif op == "3":
+            print("Saliendo...")
+            sys.exit(0)
+        else:
+            print("Opción inválida")
+
 
 def menu_cocina():
     while True:
@@ -141,8 +158,8 @@ MENU_MAP = {
     "cocinero": menu_cocina, 
     "cocina": menu_cocina,
     "gerente": menu_admin,
-
 }
+
 
 
 
